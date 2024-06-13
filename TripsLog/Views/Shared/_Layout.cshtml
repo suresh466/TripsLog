@@ -10,6 +10,10 @@
 <body>
     <header>
         <h1 class="jumbotron mx-5 text-center text-white bg-secondary shadow-lg">My Trip Log</h1>
+        @if (!string.IsNullOrEmpty(ViewData["Subhead"]?.ToString()))
+        {
+            <h2 class="text-center">@ViewData["Subhead"]</h2>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">

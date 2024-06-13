@@ -12,7 +12,14 @@
     </div>
 </div>
 
-<table class="table table-bordered table-striped">
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<table class="table table-bordered table-striped my-5">
     <thead>
         <tr><th>Destination</th><th>Start Date</th><th>End Date</th><th>Accommodations</th><th>Things To Do</th></tr>
     </thead>
@@ -21,13 +28,13 @@
         {
             <tr>
                 <td>@trip.Destination</td>
-                <td>@trip.StartDate</td>
-                <td>@trip.EndDate</td>
+                <td>@trip.StartDate.ToShortDateString()</td>
+                <td>@trip.EndDate.ToShortDateString()</td>
                 <td>
-                    @trip.Accommodation | @trip.AccommodationPhone | @trip.AccommodationEmail
+                    @trip.Accommodation <br /> @trip.AccommodationPhone | @trip.AccommodationEmail
                 </td>
                 <td>
-                    @trip.ThingToDo1 | @trip.ThingToDo2 | @trip.ThingToDo3
+                    - @trip.ThingToDo1 <br /> - @trip.ThingToDo2 <br /> - @trip.ThingToDo3
                 </td>
             </tr>
         }
