@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TripsLog.Models;
+using TripsLog.ViewModels;
 
 namespace TripsLog.Controllers
 {
@@ -25,6 +26,13 @@ namespace TripsLog.Controllers
         {
             var trips = context.Trips.ToList();
             return View(trips);
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            ViewData["Subhead"] = null;
+            return View(new TripDetailsViewModel());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
