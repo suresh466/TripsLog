@@ -31,13 +31,14 @@ namespace TripsLog.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewData["Subhead"] = null;
+            ViewData["Subhead"] = "Add Trip Destination and Dates";
             return View(new TripDetailsViewModel());
         }
 
         [HttpPost]
         public IActionResult Add(TripDetailsViewModel model)
         {
+            if (!ModelState.IsValid) ViewData["Subhead"] = "Add Trip Destination and Dates";
             if (ModelState.IsValid)
             {
                 TempData["Destination"] = model.Destination;
@@ -64,7 +65,7 @@ namespace TripsLog.Controllers
         [HttpGet]
         public IActionResult AddAccommodation()
         {
-            ViewData["Subhead"] = TempData["Accommodation"]?.ToString();
+            ViewData["Subhead"] = $"Add Info for {TempData["Accommodation"]}";
             TempData.Keep("Accommodation");
             TempData.Keep("Destination");
             TempData.Keep("StartDate");
@@ -94,7 +95,7 @@ namespace TripsLog.Controllers
         [HttpGet]
         public IActionResult AddThingsToDo()
         {
-            ViewData["Subhead"] = TempData["Destination"]?.ToString();
+            ViewData["Subhead"] = $"Add things to do in {TempData["Destination"]}";
             TempData.Keep("Accommodation");
             TempData.Keep("Destination");
             TempData.Keep("StartDate");
