@@ -31,10 +31,44 @@
                 <td>@trip.StartDate.ToShortDateString()</td>
                 <td>@trip.EndDate.ToShortDateString()</td>
                 <td>
-                    @trip.Accommodation <br /> @trip.AccommodationPhone | @trip.AccommodationEmail
+                    @if (!string.IsNullOrEmpty(trip.Accommodation))
+                    {
+                        <span>@trip.Accommodation</span>
+
+                        <br />
+                    }
+                    @if (!string.IsNullOrEmpty(trip.AccommodationPhone))
+                    {
+                        <span>@trip.AccommodationPhone</span>
+                    }
+                    @if (!string.IsNullOrEmpty(trip.AccommodationPhone) && !string.IsNullOrEmpty(trip.AccommodationEmail))
+                    {
+                        <span> | </span>
+                    }
+                    @if (!string.IsNullOrEmpty(trip.AccommodationEmail))
+                    {
+                        <span>@trip.AccommodationEmail</span>
+                    }
                 </td>
                 <td>
-                    - @trip.ThingToDo1 <br /> - @trip.ThingToDo2 <br /> - @trip.ThingToDo3
+                    @if (!string.IsNullOrEmpty(trip.ThingToDo1))
+                    {
+                        <span>- @trip.ThingToDo1</span>
+
+                        <br />
+                    }
+                    @if (!string.IsNullOrEmpty(trip.ThingToDo2))
+                    {
+                        <span>- @trip.ThingToDo2</span>
+
+                        <br />
+                    }
+                    @if (!string.IsNullOrEmpty(trip.ThingToDo3))
+                    {
+                        <span>- @trip.ThingToDo3</span>
+
+                        <br />
+                    }
                 </td>
             </tr>
         }
