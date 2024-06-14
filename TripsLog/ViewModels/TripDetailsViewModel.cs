@@ -5,11 +5,11 @@ namespace TripsLog.ViewModels
 {
     public class TripDetailsViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Destination is required.")]
         public string Destination { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Start Date is required.")]
         public DateTime StartDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "End Date is required.")]
         public DateTime EndDate { get; set; }
         public string Accommodation { get; set; }
     }

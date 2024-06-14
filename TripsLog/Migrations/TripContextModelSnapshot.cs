@@ -36,6 +36,7 @@ namespace TripsLog.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Destination")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
@@ -68,8 +69,7 @@ namespace TripsLog.Migrations
                             EndDate = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ThingToDo1 = "Visit Eiffel Tower",
-                            ThingToDo2 = "Explore Louvre Museum",
-                            ThingToDo3 = "Walk along the Seine"
+                            ThingToDo2 = "Explore Louvre Museum"
                         },
                         new
                         {
@@ -79,17 +79,11 @@ namespace TripsLog.Migrations
                             AccommodationPhone = "987654321",
                             Destination = "Tokyo",
                             EndDate = new DateTime(2024, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ThingToDo1 = "Visit Tokyo Tower",
-                            ThingToDo2 = "Explore Shinjuku Gyoen",
-                            ThingToDo3 = "Shop in Shibuya"
+                            StartDate = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            Accommodation = "NY Hotel",
-                            AccommodationEmail = "stay@nyhotel.com",
-                            AccommodationPhone = "123123123",
                             Destination = "New York",
                             EndDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
