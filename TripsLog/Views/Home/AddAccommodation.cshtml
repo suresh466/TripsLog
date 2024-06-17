@@ -1,9 +1,11 @@
-﻿@model AccommodationViewModel
+﻿@* the model used for the page *@
+@model AccommodationViewModel
 
 @{
     ViewData["Title"] = "Add Accommodation";
 }
 
+@* form for adding accomodation *@
 <form asp-action="AddAccommodation" method="post">
     <div class="form-group">
         <label asp-for="Accommodation"></label>

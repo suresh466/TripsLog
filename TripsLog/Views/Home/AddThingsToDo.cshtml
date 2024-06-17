@@ -1,9 +1,10 @@
-﻿@model ThingsToDoViewModel
+﻿@* the model used *@
+@model ThingsToDoViewModel
 
 @{
     ViewData["Title"] = "Add Things To Do";
 }
-
+@* form for adding things to do *@
 <form asp-action="AddThingsToDo" method="post">
     <div class="form-group">
         <label asp-for="ThingToDo1"></label>

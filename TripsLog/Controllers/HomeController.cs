@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +20,11 @@ namespace TripsLog.Controllers
         public HomeController(ILogger<HomeController> logger, TripContext ctx)
         {
             _logger = logger;
+            // initialize the TripContext
             context = ctx;
         }
 
+        // just get all trips and pass them to the view
         public IActionResult Index()
         {
             var trips = context.Trips.ToList();
@@ -31,14 +34,18 @@ namespace TripsLog.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            // filling the subhead with appropriate text
             ViewData["Subhead"] = "Add Trip Destination and Dates";
+            // return the view with an empty model so the user can fill it
             return View(new TripDetailsViewModel());
         }
-
+        
+        // post controller for add we have to store data in TempData for now by invoking Keep() for retention
         [HttpPost]
         public IActionResult Add(TripDetailsViewModel model)
         {
             if (!ModelState.IsValid) ViewData["Subhead"] = "Add Trip Destination and Dates";
+            // if input is valid put the data in tempdata
             if (ModelState.IsValid)
             {
                 TempData["Destination"] = model.Destination;
@@ -46,6 +53,7 @@ namespace TripsLog.Controllers
                 TempData["EndDate"] = model.EndDate;
                 TempData["Accommodation"] = model.Accommodation;
 
+                //if accommodation field is SqlAlreadyFilledException then redirect to add accommodation
                 if (!string.IsNullOrEmpty(model.Accommodation))
                 {
                     TempData.Keep("Destination");
@@ -54,6 +62,7 @@ namespace TripsLog.Controllers
                     TempData.Keep("Accommodation");
                     return RedirectToAction("AddAccommodation");
                 }
+                // if accomodation field not filled just take to add thingstodo
                 TempData.Keep("Destination");
                 TempData.Keep("StartDate");
                 TempData.Keep("EndDate");
@@ -66,6 +75,7 @@ namespace TripsLog.Controllers
         public IActionResult AddAccommodation()
         {
             ViewData["Subhead"] = $"Add Info for {TempData["Accommodation"]}";
+            // invoke keep again because we'll need them at the end to save
             TempData.Keep("Accommodation");
             TempData.Keep("Destination");
             TempData.Keep("StartDate");
@@ -79,6 +89,7 @@ namespace TripsLog.Controllers
         [HttpPost]
         public IActionResult AddAccommodation(AccommodationViewModel model)
         {
+            // if input is valid then put the data in tempdata for later
             if (ModelState.IsValid)
             {
                 TempData["AccommodationPhone"] = model.AccommodationPhone;
@@ -87,35 +98,34 @@ namespace TripsLog.Controllers
                 TempData.Keep("Destination");
                 TempData.Keep("StartDate");
                 TempData.Keep("EndDate");
+                // then redirect to addthingstodo view
                 return RedirectToAction("AddThingsToDo");
             }
             return View(model);
         }
 
+
         [HttpGet]
         public IActionResult AddThingsToDo()
         {
             ViewData["Subhead"] = $"Add things to do in {TempData["Destination"]}";
+            // again invoke keep here to keep data across next request
             TempData.Keep("Accommodation");
             TempData.Keep("Destination");
             TempData.Keep("StartDate");
             TempData.Keep("EndDate");
             TempData.Keep("AccommodationPhone");
             TempData.Keep("AccommodationEmail");
+            // return empty thingstodoviewmodel so user can fill it
             return View(new ThingsToDoViewModel());
         }
 
         [HttpPost]
         public IActionResult AddThingsToDo(ThingsToDoViewModel model)
         {
+            // if data is valid then finally create a new Trip object with the data from tempdata
             if (ModelState.IsValid)
             {
-                foreach (var item in TempData)
-                {
-                    Console.WriteLine("here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                    Console.WriteLine($"{item.Key}: {item.Value}");
-                    Console.WriteLine("here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                }
                 var trip = new Trip
                 {
                     // these values are required so we don't do null check we handle it in the view
@@ -131,9 +141,11 @@ namespace TripsLog.Controllers
                     ThingToDo2 = model.ThingToDo2,
                     ThingToDo3 = model.ThingToDo3
                 };
+                // add the trip to database
                 context.Trips.Add(trip);
                 context.SaveChanges();
 
+                // clear out the tempdata pre-emptively 
                 TempData.Clear();
                 TempData["Message"] = "Trip added successfully!";
                 return RedirectToAction("Index");
@@ -141,8 +153,10 @@ namespace TripsLog.Controllers
             return View(model);
         }
 
+        // it is cancel controller in case user wants to cancel at any point
         public IActionResult Cancel()
         {
+            // it just clears the tempdata and starts over
             TempData.Clear();
             return RedirectToAction("Index");
         }

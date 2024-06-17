@@ -12,6 +12,7 @@
     </div>
 </div>
 
+@* show message if message exists in the tempdata *@
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success mt-3" role="alert">
@@ -19,6 +20,7 @@
     </div>
 }
 
+@* table for trip details *@
 <table class="table table-bordered table-striped my-5">
     <thead>
         <tr><th>Destination</th><th>Start Date</th><th>End Date</th><th>Accommodations</th><th>Things To Do</th></tr>
@@ -31,6 +33,7 @@
                 <td>@trip.StartDate.ToShortDateString()</td>
                 <td>@trip.EndDate.ToShortDateString()</td>
                 <td>
+                    @* conditions to handle the cases when data is partially available or not available *@
                     @if (!string.IsNullOrEmpty(trip.Accommodation))
                     {
                         <span>@trip.Accommodation</span>

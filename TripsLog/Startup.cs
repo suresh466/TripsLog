@@ -26,6 +26,7 @@ namespace TripsLog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // inject database context using dependency injection
             services.AddDbContext<TripContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("TripContext")));
         }
